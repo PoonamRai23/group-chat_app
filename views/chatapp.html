@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatAPPLICATION</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <style>
+        *{
+            padding: 0px;
+            margin: 0px;
+        }
+        body{
+          padding: 0px;
+            margin: 0px;
+        }
+        .main{
+         
+            height: 500px;
+        }
+      
+        .row1{
+           
+            height: 60px;
+            /* background-color: black; */
+          /* background-color: #058576; */
+          /* background-color: black; */
+          background-color: #e8e5e5;
+        }
+        .row2{
+            height:450px;
+            
+        }
+        .user{
+
+          font-size: 24px;
+          color:black;
+          font-weight: 600;
+        }
+        
+        .logo{
+          font-size: 24px;
+          color:black;
+          font-weight: 600;
+          
+        }
+        .exitbtn{
+          display: flex;
+          justify-content: space-between;
+          padding: 0px 20px;
+        }
+        .group{
+          font-size: 24px;
+          color:black;
+          font-weight: 600;
+        }
+        .messages-area{
+            display: flex;
+            padding: 10px;
+            width: 100%;
+            overflow: auto;
+            height: 470px;
+    }
+    .text-area {
+      float: left;
+      width: 40%;
+    }
+    .send-btn {
+      float: right;
+      width: 10%;
+      
+    }
+    .msg-area {
+      position: absolute;
+      bottom: 0;
+      width: 55%;
+      background-color: #e8e5e5;
+      padding: 10px 20px 10px 2px;
+      margin-bottom: 5px;
+    }
+    #message-input {
+      width: 60%;
+      padding: 4px;
+      border-radius: 5px;
+      position: relative;
+    }
+    .attach_img{
+        height: 40px;
+        width: 60px;
+        margin:2px
+    }
+     </style>
+</head>
+<body>
+  <nav class="navbar bg-body-tertiary p-0">
+    <div class="container-fluid justify-content-end bg-success bg-gradient py-2">
+        <button id="exit-chat" onclick="logout(event)" class="btn btn-outline-warning exitbtn m-2 py-2">Log-Out</button>
+    </div>
+  </nav>
+    <div class="container-fluid main">
+      
+            <div class="row row1">
+                <div class="col-md-3">
+                   <div class="header my-2 ">
+                     <div class="logo user py-1">Users</div>               
+            </div> 
+            </div>
+                <div class="col-md-6 border-white border-end">
+                 <div class="header">
+                    <div class="logo">Chatroom</div>
+                  </div> 
+                  </div>
+                <div class="col-md-3  group">
+                  <div>Groups</div>
+
+                </div>
+              </div>
+       
+        <div class="row row2">
+            <div class="col-md-3">
+                <div class="my-2" id="userList"></div>     
+            </div>
+            <div class="col-md-6">
+              <div class="messages-area" id="chatWith">
+                <div id="sendChatMsg">
+                </div>                
+                </div>
+              <div class="typebox msg-area">
+                <div class="text-area">
+                  <input type="text" id="message" class="form-control" />
+                </div>
+                <form method="post" id="chatMsg" onsubmit="sendMsg(event)">
+                <div class="send-btn">
+                  <button type="submit" id="send-message" class="btn btn-success">Send</button>
+                </div>
+              </form>
+              
+              <div class="col">
+                <!-- <img src="../images/1151991.png" alt="" srcset=""> -->
+                <img
+                src="./image/download.png"alt="attachfile" class="attach_img" data-bs-toggle="modal"data-bs-target="#attach_file"/>
+    
+            </div>
+            
+            <div class="modal fade" id="attach_file" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Attach document</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container mt-5">
+                            <!-- <h5>Create a New Group</h5> -->
+                            <form id="attach_fileForm">
+                                <div class="form-group">
+                                    <label for="groupName">Select file</label>
+                                    <input type="text" class="form-control" id="groupName" required>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary sent-files" onclick="attachFile(event)">send
+                            </button>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+            </div>  
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#exampleModal_1">
+                   Create group</button>
+                <!-- </button> The data-bs-toggle and data-bs-target attributes are used to trigger the modal with the ID #exampleModal_1 when this button is clicked. In other words, clicking this button will open the modal dialog. -->
+                <div class="modal fade" id="exampleModal_1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                 <!-- // The fade class is used for a fade-in/fade-out effect when the modal is displayed or hidden.and area labeled used for accesability purpose -->
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Create a Group</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <!-- close button (btn-close) with the data-bs-dismiss attribute, which allows users to close the modal by clicking it. -->
+                        <div class="modal-body">
+                          <form method="post" onsubmit="createGroup(event)">                                                                                             
+                            <div class="mb-3">
+                              <label for="proname" class="col-form-label">Add group name</label>
+                              <input type="text" class="form-control" id="groupname">
+                            </div>
+                            <div class="mb-3">
+                                <label for="proname" class="col-form-label">Add group participant</label>
+                                <div class="dropdown">
+                                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Participant
+                                  </button>                                                    
+                                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdownItemList">
+                                    <!-- Dynamic items will be inserted here -->
+                                  </ul>
+                                </div> 
+                              </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+                      </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="displayGroup">
+                    <ul id="group">Your Groups:</ul>
+                </div>
+                </div>
+        </div>
+    </div>
+  </div>
+   </body>
+   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+   <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+   
+   <script>
+    const socket = io();
+ socket.on('receive-message', (messageData) => {
+    // It will update the chat UI when a new message is received
+    updateChatUIWithNewMessage(messageData);
+});
+
+function sendMessage(messageData) {
+    // socket.emit('new-message', messageData);
+}
+
+socket.on('connection', (socket_id) => {
+    // console.log(parseJwt(localStorage.getItem('token')));
+    // console.log("hello there can you see this mesg");
+    const {userId} = parseJwt(localStorage.getItem('token'));
+    console.log('userId :- ',socket_id);
+    socket.emit('save-customer-details',{userId,socket_id});
+//  socket.emit('chat message','connected message from frontend');
+});
+socket.on('connection-done',(data)=>{
+    // console.log(localStorage.get('token'))
+    // socket.emit('save-customer-details',)
+});
+
+socket.on('received_msg',(data)=>{
+    const {msg, to} = data;//backend
+    console.log('message received here :- ', data );
+    const {id:toUser} = JSON.parse(localStorage.getItem('activeMessageUser'));
+    // if(to===toUser){
+        messages.push({ msg: msg, type:'receiving' });
+        displaySentMsg(messages);
+    // }
+})
+
+    let groupEditData = {};
+    let messages = [];
+
+
+      async function sendMsg(event) {
+           event.preventDefault();
+           const message= document.getElementById("message").value;
+           
+           const {userId} = parseJwt(localStorage.getItem('token'));
+        const {id:toUser} = JSON.parse(localStorage.getItem('activeMessageUser'));
+        // const obj = { msg: msg };
+        socket.emit('sendMessage',{from : userId, to:toUser,msg:msg});
+        messages.push({ msg: msg, type:'sending' })
+        displaySentMsg(messages);
+        document.getElementById("message-txt").value = '';
+
+          //  try {
+           
+          //     const token=localStorage.getItem("token")
+          //     const postMsg = await axios.post("http://localhost:3000/chat", obj,{headers:{"Authorization":token}});
+          //      console.log("posted msg", postMsg.data); 
+          //  }
+          //  catch (err) {
+          //      console.log("cant post", err)
+          //  }
+         }
+       window.addEventListener("DOMContentLoaded" ,()=>{
+         showData()
+       })
+   
+  //  setmsg to localStorage
+     async function showData(){
+         try{
+             const token = localStorage.getItem('token'); 
+             const res=await axios.get("http://localhost:3000/chat",{headers:{"Authorization":token}})
+            // console.log("posted msg", res.data.chatMsg);
+             //convert arrofobject to string to set into local storage
+             const msgData=res.data.chatMsg;
+             const parentElement = document.getElementById("sendChatMsg");
+              parentElement.innerHTML=""
+              let dataArray=[]
+   
+               msgData.forEach((object)=>
+               {
+                dataArray.push(object);
+                if(dataArray.length>5){
+                 dataArray.shift()
+                }
+                localStorage.setItem("outputdata",JSON.stringify(dataArray))
+               })
+   
+                let local=localStorage.getItem("outputdata")
+                console.log("local>>",local)
+                const localData=JSON.parse(local)
+                console.log("local>>",localData)
+                localData.forEach(object=>{
+                 console.log("obj",object)
+               
+                 //display details
+                 const child = document.createElement("div");
+                 child.className = "sendMsg";
+                 child.textContent=`${object.chat}`;
+                 parentElement.appendChild(child);
+               })
+               
+            
+           }
+           catch(err){
+             console.log(err)
+           }
+         }
+
+     //parse jwt token
+     function parseJwt(token)
+       {
+    
+   const base64Url = token.split('.')[1]; // Get the base64-encoded payload
+   const base64 = base64Url.replace('-', '+').replace('_', '/'); // Replace URL-safe characters
+   const payload = JSON.parse(atob(base64)); // Decode and parse the payload
+   return payload;
+       }
+       
+     const parent=document.getElementById('userList')
+     const alluser=async()=>{
+       
+         const res=await axios.get("http://localhost:3000/user")
+         const data=res.data.allUsers
+         console.log('userlist>>>>>',data)
+         localStorage.setItem("alluserdetails",JSON.stringify(data))
+         const localget=localStorage.getItem("token");
+         const decodedToken=parseJwt(localget)
+         
+         console.log("decoded token",decodedToken);
+   
+
+         data.forEach(user => {
+            if(decodedToken.name!=user.name&& user.status=="online"){
+             
+             const child=document.createElement("li");
+             child.style.listStyleType="disc"; 
+             child.style.color="green";
+             child.style.fontSize="25px"
+             child.innerText=user.name;
+             const activeUser = JSON.parse(localStorage.getItem('activeMessageUser'));
+                    child.className=activeUser?.id==user?.id?"active list-group-item":"list-group-item";
+                    
+                    parent.appendChild(child);
+                    child.onclick=()=>{
+                        localStorage.setItem('activeMessageUser',JSON.stringify(user));
+                        alluser()
+                      
+                    }
+            }
+            else if(decodedToken.name!=user.name&& user.status=="offline"){
+             const child=document.createElement("li");
+             child.style.listStyleType="disc"; 
+             child.style.color="grey";
+             child.style.fontSize="25px"
+             child.innerText=user.name;
+              parent.appendChild(child);
+              fetchChatMessagesForOneUser(user);
+              alluser()
+            }  
+         });    
+     }
+     alluser()
+     async function fetchChatMessagesForOneUser({id}){
+    const {userId} = parseJwt(localStorage.getItem('token'));
+const data = await axios.get(`http://localhost:3000/chat-msg/${userId}/${id}`);
+const msgs = data.data.chatMsg.map(dt=>{
+    if(dt.from==userId){  dt.type='sending'; }
+    else{ dt.type='receiving'}
+    return dt;
+});
+console.log('here are fetched messages',msgs);
+messages = msgs;
+displaySentMsg(messages);
+}
+     async function logout(event){
+       event.preventDefault()
+     try{
+       const token=localStorage.getItem("token");
+       const decodedToken=parseJwt(token)
+       const userId=decodedToken.userId;
+       const res=await axios.put(`http://localhost:3000/updateStatus/${userId}`)
+       if (res.status === 200) {
+               window.alert("You are succefully logout");
+               window.location.href='/login.html'
+              
+             }
+       
+   }
+   catch(err){
+     console.log('err')
+   
+   }
+   }
+
+  document.addEventListener("DOMContentLoaded", function() {
+
+const dropdownItemList = document.getElementById("dropdownItemList");
+    const token = localStorage.getItem('token');//login token
+    const decodedToken = parseJwt(token);
+const items = JSON.parse(localStorage.getItem('alluserdetails'))
+console.log("item>>>>",items)
+      
+items.forEach(item => {
+  const listItem = document.createElement("li");
+  if(decodedToken.name==item.name){
+  listItem.innerHTML = `
+    <a class="dropdown-item" href="#">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="${item.name}" checked disabled id="${item.id}" />
+        <label class="form-check-label" for="${item.id}">${item.name}</label>
+      </div>
+    </a>
+  `;
+}
+else{
+    listItem.innerHTML = `
+    <a class="dropdown-item" href="#">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="${item.name}" id="${item.id}" />
+        <label class="form-check-label" for="${item.id}">${item.name}</label>
+      </div>
+    </a>
+  `; 
+}
+  dropdownItemList.appendChild(listItem);
+});
+});
+// step2 get all checked member and push them in array
+function getCheckedMembers() {
+  const checkedMembers = [];
+  const checkboxes = document.querySelectorAll('.form-check-input[type="checkbox"]');
+  console.log("checkbox>>",checkboxes)
+  
+  checkboxes.forEach(checkbox => {
+    if (checkbox.checked) {
+      const memberId = checkbox.getAttribute('id');
+      checkedMembers.push(memberId);
+    }
+  });
+  return checkedMembers;
+}
+// step3 post the data to backend for group creation
+async function createGroup(event){
+        event.preventDefault();    
+        const groupname=document.getElementById('groupname').value 
+        console.log("grpname>>>>",groupname)
+        const obj={
+           
+            groupname:groupname,
+            members: getCheckedMembers()
+        } 
+        console.log("obj>>>>>",obj)   
+     try{
+        const token = localStorage.getItem('token');
+        const response=await axios.post('http://localhost:3000/creategroup',obj,{headers:{'Authorization':token}})
+        console.log("Response of group creation", response.data.groupMemberData) 
+        data=response.data.groupMemberData
+        localStorage.setItem("groupname",JSON.stringify(data))        
+        }
+        catch(err){
+            console.log("group data error",err)
+        }
+    }
+    getGroupDetails();
+
+      async function getGroupDetails() {
+        try {
+            const token = localStorage.getItem('token');
+            // const admin = decodename.userId;
+
+            const getGroupDetails = await axios.get("http://localhost:3000/getGroup", { headers: { "Authorization": token } });
+            console.log("groupDetails are", getGroupDetails.data.allGroupData);
+            const array = getGroupDetails.data.allGroupData;
+            console.log("getGroupDetails array",array)
+             displayGroup(array,admin);
+        }
+        catch (error) {
+            console.log("can not get group details", error);
+        }
+    }
+    function displayGroup(array,admin) {
+        const parent = document.getElementById("group");
+
+        arrayOfObj.forEach((obj) => {
+            console.log("obj<<<<<<<<", obj.groupname);
+            const child = document.createElement("li");
+            child.textContent = `groupName:${obj.groupname},Admin:${obj.createdBy}`;
+            child.className = "groupName";
+            parent.appendChild(child);
+            //edit group
+            if (admin == `${obj.createdBy}`) {
+                const edit = document.createElement("button");
+                // edit.type="text"
+                edit.innerHTML = "Edit";
+                edit.className = "btn"
+                child.appendChild(edit);
+
+                edit.onclick = () => {
+                    // console.log('calling');
+                    document.getElementById("group").value = obj.groupname;
+                    groupEditData = obj;
+                   
+                    $('#createGroup').modal('show');
+
+                    alluser();
+
+                    // console.log("Hello Check it here : -", groupEditData);
+                };
+            }
+        })
+    }
+    
+    getGroupDetails()
+  </script>  
+</html>
